@@ -595,11 +595,117 @@
   function prevStep(n) { if (n > 1) goToStep(n - 1); }
   function getVal(id) { return (document.getElementById(id)?.value || '').trim(); }
 
+  const synDB = {
+    'social media': ['social networking', 'online platforms'],
+    'social media use': ['social networking', 'screen time'],
+    'climate change': ['global warming', 'environmental change'],
+    'mental health': ['psychological wellbeing', 'emotional health'],
+    'artificial intelligence': ['AI', 'machine learning'],
+    'ai': ['artificial intelligence', 'machine learning'],
+    'technology': ['digital tools', 'tech'],
+    'nutrition': ['diet', 'food intake'],
+    'exercise': ['physical activity', 'fitness'],
+    'physical activity': ['exercise', 'fitness'],
+    'reading': ['literacy', 'reading comprehension'],
+    'smoking': ['tobacco use', 'cigarette smoking'],
+    'alcohol': ['alcohol use', 'drinking'],
+    'drug use': ['substance use', 'substance abuse'],
+    'obesity': ['overweight', 'body weight'],
+    'diabetes': ['type 2 diabetes', 'blood sugar'],
+    'cancer': ['oncology', 'malignancy'],
+    'anxiety': ['anxiety disorder', 'worry'],
+    'depression': ['major depressive disorder', 'depressive symptoms'],
+    'stress': ['psychological stress', 'burnout'],
+    'sleep': ['sleep quality', 'insomnia'],
+    'violence': ['aggression', 'abuse'],
+    'bullying': ['cyberbullying', 'harassment'],
+    'cyberbullying': ['online harassment', 'digital bullying'],
+    'poverty': ['low income', 'socioeconomic disadvantage'],
+    'income inequality': ['wealth gap', 'economic disparity'],
+    'racism': ['racial discrimination', 'racial bias'],
+    'gender': ['gender identity', 'sex'],
+    'immigration': ['migration', 'immigrants'],
+    'education': ['schooling', 'academic achievement'],
+    'remote learning': ['online learning', 'distance education'],
+    'online learning': ['remote learning', 'e-learning'],
+    'vaccine': ['vaccination', 'immunization'],
+    'vaccination': ['vaccine', 'immunization'],
+    'covid': ['COVID-19', 'coronavirus'],
+    'covid-19': ['coronavirus', 'pandemic'],
+    'pandemic': ['COVID-19', 'epidemic'],
+    'leadership': ['management', 'governance'],
+    'diversity': ['inclusion', 'equity'],
+    'equity': ['fairness', 'equality'],
+    'sustainability': ['sustainable development', 'green practices'],
+    'food insecurity': ['hunger', 'food access'],
+    'homelessness': ['unhoused', 'housing instability'],
+    'academic performance': ['academic achievement', 'grades'],
+    'academic achievement': ['academic performance', 'student outcomes'],
+    'mental health outcomes': ['psychological outcomes', 'wellbeing'],
+    'wellbeing': ['quality of life', 'mental health'],
+    'quality of life': ['wellbeing', 'life satisfaction'],
+    'health outcomes': ['health effects', 'clinical outcomes'],
+    'policy change': ['policy reform', 'legislation'],
+    'economic impact': ['financial impact', 'economic effects'],
+    'productivity': ['efficiency', 'job performance'],
+    'student success': ['academic success', 'retention'],
+    'retention': ['student retention', 'dropout rates'],
+    'graduation rates': ['degree completion', 'retention'],
+    'engagement': ['participation', 'involvement'],
+    'motivation': ['academic motivation', 'intrinsic motivation'],
+    'satisfaction': ['job satisfaction', 'fulfillment'],
+    'burnout': ['compassion fatigue', 'emotional exhaustion'],
+    'mortality': ['death rates', 'survival rates'],
+    'prevention': ['risk reduction', 'early intervention'],
+    'college students': ['undergraduate students', 'university students'],
+    'undergraduate students': ['college students', 'university students'],
+    'graduate students': ['postgraduate students', 'master\'s students'],
+    'students': ['learners', 'pupils'],
+    'children': ['youth', 'minors'],
+    'teenagers': ['adolescents', 'youth'],
+    'adolescents': ['teenagers', 'youth'],
+    'adults': ['grown-ups', 'adult population'],
+    'older adults': ['elderly', 'seniors'],
+    'elderly': ['older adults', 'seniors'],
+    'women': ['females', 'girls'],
+    'men': ['males', 'boys'],
+    'parents': ['caregivers', 'families'],
+    'families': ['households', 'parents'],
+    'teachers': ['educators', 'instructors'],
+    'faculty': ['professors', 'instructors'],
+    'nurses': ['registered nurses', 'nursing staff'],
+    'healthcare workers': ['medical staff', 'clinicians'],
+    'doctors': ['physicians', 'clinicians'],
+    'patients': ['individuals', 'clients'],
+    'veterans': ['military veterans', 'service members'],
+    'immigrants': ['migrants', 'foreign-born individuals'],
+    'employees': ['workers', 'staff'],
+    'workers': ['employees', 'labor force'],
+    'librarians': ['library professionals', 'information specialists'],
+    'athletes': ['student athletes', 'sports participants'],
+  };
+
+  function getSynonyms(term) {
+    if (!term) return ['alternative term', 'alternative term'];
+    const key = term.toLowerCase().trim();
+    if (synDB[key]) return synDB[key];
+    const partial = Object.keys(synDB).find(k => k.startsWith(key) || key.startsWith(k));
+    if (partial) return synDB[partial];
+    return ['alternative term', 'alternative term'];
+  }
+
   function updateSummary() {
     const what = getVal('whatInput'), why = getVal('whyInput'), who = getVal('whoInput');
     setHTML('sumWhat', what || '<span class="empty-hint">not yet entered</span>');
     setHTML('sumWhy',  why  || '<span class="empty-hint">not yet entered</span>');
     setHTML('sumWho',  who  || '<span class="empty-hint">not yet entered</span>');
+    const [ws1, ws2] = getSynonyms(what);
+    const [ys1, ys2] = getSynonyms(why);
+    const [os1, os2] = getSynonyms(who);
+    const setP = (id, val) => { const e = document.getElementById(id); if(e) e.placeholder = val; };
+    setP('whatSyn1', ws1); setP('whatSyn2', ws2);
+    setP('whySyn1',  ys1); setP('whySyn2',  ys2);
+    setP('whoSyn1',  os1); setP('whoSyn2',  os2);
   }
   function setHTML(id, html) { const e = document.getElementById(id); if(e) e.innerHTML = html; }
 
